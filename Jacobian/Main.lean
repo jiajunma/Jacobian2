@@ -41,7 +41,18 @@ lemma h_noneg (v : C4) : 0 ≤ h v := by
 
 abbrev Ch (r:ℝ) := {v : C4 | h v ≥ r}
 
-lemma Vh_inter (r s :ℝ) : Ch r ∩ Ch s = Ch (max r s) := by sorry
+lemma Ch_subset_of_ge {r s:ℝ} (hrs : r ≥ s) :  Ch r ⊆ Ch s := by
+  intro x hx
+  rw [Set.mem_setOf_eq, ge_iff_le] at hx
+  rw [Set.mem_setOf_eq, ge_iff_le]
+  linarith
+
+
+lemma Ch_inter (r s :ℝ) : Ch r ∩ Ch s = Ch (max r s) := by
+  by_cases h : r≥s
+  . simp [Ch_subset_of_ge h,(by simp [h] : max r s = r)]
+  . replace h : r≤ s := by push_neg at h; linarith
+    simp [Ch_subset_of_ge h, (by simp [h,max_eq_left] : max r s = s)]
 
 def Fh : Filter C4 where
   sets := {s | ∃ r : ℝ , Ch r ⊆ s}
@@ -56,7 +67,7 @@ def Fh : Filter C4 where
     obtain ⟨r,hr⟩ := hU
     obtain ⟨s,hs⟩ := hV
     use (max r s)
-    rw [<-Vh_inter]
+    rw [<-Ch_inter]
     exact Set.inter_subset_inter hr hs
 
 /-

@@ -135,19 +135,19 @@ local notation " π1 " => (pi1 F G)
 /-
 Theorem 1.3a: π1 is proper.
 -/
-theorem Theorem1_2a (HV : (V F G).Nonempty)
+theorem Theorem1_3a (HV : (V F G).Nonempty)
 : IsProperMap  π1 := by sorry
 
 /-
 Theorem 1.3b: π1 is finite.
 -/
-theorem Theorem1_2b (HV : (V F G).Nonempty)
+theorem Theorem1_3b (HV : (V F G).Nonempty)
 : ∀ c : C2,  Finite <| π1 ⁻¹' {c}:= by sorry
 
 /-
 Theorem 1.3b: π1 is surjective.
 -/
-theorem Theorem1_2c (HV : (V F G).Nonempty)
+theorem Theorem1_3c (HV : (V F G).Nonempty)
 : Function.Surjective π1 := by sorry
 
 

@@ -1,6 +1,7 @@
 /build
 /lakefile.olean
 /lake-packages/*
+.lake
 *.olean
 /_target
 leanpkg.path

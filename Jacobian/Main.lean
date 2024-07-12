@@ -47,7 +47,6 @@ lemma Ch_subset_of_ge {r s:ℝ} (hrs : r ≥ s) :  Ch r ⊆ Ch s := by
   rw [Set.mem_setOf_eq, ge_iff_le]
   linarith
 
-
 lemma Ch_inter (r s :ℝ) : Ch r ∩ Ch s = Ch (max r s) := by
   by_cases h : r≥s
   . simp [Ch_subset_of_ge h,(by simp [h] : max r s = r)]

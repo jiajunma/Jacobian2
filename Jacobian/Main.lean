@@ -20,16 +20,51 @@ abbrev y: R := X Var.y
 abbrev C2 := ℂ × ℂ
 abbrev C4 := C2 × C2
 
+abbrev CX := Polynomial ℂ
+
+/-
+The ring ℝ((y⁻¹))
+-/
+abbrev RYY := LaurentSeries ℝ
+
+/-
+The ring ℂ[x]((y⁻¹))
+-/
+abbrev CXYY := LaurentSeries (Polynomial ℂ)
+
+variable (P : LaurentSeries (Polynomial ℂ))
+variable (Q : LaurentSeries ℝ )
+
+section Controlling
+/-
+Definition~2.5: Q  is a controlling function for P at x0 if
+|p_i(x0)|≤ q_i  for all coefficeints p_i in P and q_i in Q.
+-/
+def Control (x0 : ℂ) (P : CXYY) (Q : RYY) :=
+  ∀ (i:ℤ) , abs (Polynomial.eval x0 (P.coeff i)) ≤ Q.coeff i
+
+local notation P:50 "◁[" x0:61 "]" Q:51 => Control x0 P Q
+
+/-
+Definition~2.5 (b): Q is a controlling function if all its coefficents are non-negative.
+-/
+def Controlling (Q : RYY) := ∀ i, 0 ≤ Q.coeff i
+
+
+
+end Controlling
 
 /-
 The height of a point in (ℂ × ℂ) × (ℂ × ℂ)
 is the sum of the absolute values of its coordinates.
 -/
+def h (v : C4) := abs v.1.1 + abs v.1.2 + abs v.2.1 + abs v.2.2
 
 lemma _root_.Complex.abs_nonneg (c : ℂ): 0 ≤ abs c := by simp
 
-def h (v : C4) := abs v.1.1 + abs v.1.2 + abs v.2.1 + abs v.2.2
-
+/-
+Height is non-negative
+-/
 lemma h_noneg (v : C4) : 0 ≤ h v := by
   rw [h]
   have := Complex.abs_nonneg v.1.1
@@ -72,16 +107,16 @@ def Fh : Filter C4 where
 /-
 For complex number a b construct the point ((a,b) : Var → ℂ)
 -/
-def P (a b:ℂ) (v : Var) : ℂ  :=
+def Pt (a b:ℂ) (v : Var) : ℂ  :=
   match v with
   | Var.x => a
   | Var.y => b
 
-lemma P.a {a b :ℂ} : P a b Var.x = a := by rw [P]
-lemma P.b {a b :ℂ} : P a b Var.y = b := by rw [P]
+lemma P.a {a b :ℂ} : Pt a b Var.x = a := by rw [Pt]
+lemma P.b {a b :ℂ} : Pt a b Var.y = b := by rw [Pt]
 
 
-abbrev EV (F : R) (a b : ℂ) := eval (P a b) F
+abbrev EV (F : R) (a b : ℂ) := eval (Pt a b) F
 /-
 The Jacobian of a pair (F,G) is
 | F_x   F_y |

@@ -199,4 +199,36 @@ theorem Theorem1_3c (HV : (V F G).Nonempty)
 #check x*y
 
 
+
 end
+
+noncomputable section Laurent
+
+variable (Q : LaurentSeries ℝ)
+
+/-
+q_0 yᵃ
+-/
+def Qzya : LaurentSeries ℝ := HahnSeries.single Q.order Q.leadingCoeff
+
+def Qign  : LaurentSeries ℝ := (Q - (Qzya Q)) / (Qzya Q)
+
+lemma Qign_coeff (H : Q ≠ 0) :
+  ∀ j, (Qign Q).coeff j =  if j>0 then Q.leadingCoeff⁻¹ * (Q.coeff (Q.order + j)) else 0 := by
+  sorry
+
+
+def Qneg := 2 * (Qzya Q) - Q
+
+
+
+/-
+def Qign (H : Q ≠ 0) : LaurentSeries ℝ where
+  coeff := fun j => if j>0 then Q.leadingCoeff⁻¹ * (Q.coeff (Q.order + j)) else 0
+  isPWO_support' := by
+
+    refine Set.IsPWO.mono ?_ (by simp : _ ⊆ )
+    rw [Set.IsPWO,Set.PartiallyWellOrderedOn]
+-/
+
+end Laurent
